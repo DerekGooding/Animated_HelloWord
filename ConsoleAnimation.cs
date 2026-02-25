@@ -27,7 +27,7 @@ internal static class ConsoleAnimation
                     _cursorPosition.Y = row;
                     SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
 
-                    ConsoleColored.Write(lines[row][col], FromInt<ConsoleColor>(_curentColor));
+                    ConsoleColored.Write(lines[row][col].ToString(), FromInt<ConsoleColor>(_curentColor));
 
                 }
 
@@ -37,7 +37,7 @@ internal static class ConsoleAnimation
         }
         else
         {
-            var Lines = (Animation == AnimationType.TopToBottom ? AnimationText.Split("\n") : AnimationText.Split("\n").Reverse().ToArray());
+            var Lines = Animation == AnimationType.TopToBottom ? AnimationText.Split("\n") : [.. AnimationText.Split("\n").Reverse()];
             _cursorPosition.Y = (Animation == AnimationType.TopToBottom ? 0 : Lines.Length - 1);
 
             foreach (var line in Lines)
@@ -48,7 +48,7 @@ internal static class ConsoleAnimation
                 foreach (var c in line.ToList())
                 {
                     SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
-                    ConsoleColored.Write(c, FromInt<ConsoleColor>(_curentColor));
+                    ConsoleColored.Write(c.ToString(), FromInt<ConsoleColor>(_curentColor));
 
                     _cursorPosition.X++;
                 }
