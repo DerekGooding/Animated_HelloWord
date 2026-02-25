@@ -1,7 +1,7 @@
 ﻿using Figgle.Fonts;
 using static System.Console;
 
-namespace Animated_HelloWord;
+namespace Animated_HelloWorld;
 
 internal class ConsoleAnimation
 {

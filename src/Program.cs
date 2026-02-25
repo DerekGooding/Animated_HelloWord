@@ -1,4 +1,4 @@
-﻿namespace Animated_HelloWord;
+﻿namespace Animated_HelloWorld;
 
 internal static class Program
 {
