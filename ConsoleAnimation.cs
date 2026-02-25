@@ -3,13 +3,13 @@ using static System.Console;
 
 namespace Animated_HelloWord;
 
-internal static class ConsoleAnimation
+internal class ConsoleAnimation(string text)
 {
-    public static string AnimationText = FiggleFonts.Larry3d.Render("Hello World!");
-    private static readonly CursorPositon _cursorPosition = new(0, 0);
+    public string AnimationText = FiggleFonts.Larry3d.Render(text);
+    private CursorPositon _cursorPosition = new(0, 0);
     private static int _curentColor = 1;
 
-    public static void Write(AnimationType Animation = AnimationType.RightToLeft)
+    internal void Write(AnimationType Animation = AnimationType.RightToLeft)
     {
         if (Animation is AnimationType.LeftToRight or AnimationType.RightToLeft)
         {
@@ -23,8 +23,7 @@ internal static class ConsoleAnimation
                     if (col >= lines[row].Length)
                         continue;
 
-                    _cursorPosition.X = col;
-                    _cursorPosition.Y = row;
+                    _cursorPosition = new(col, row);
                     SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
 
                     ConsoleColored.Write(lines[row][col].ToString(), FromInt<ConsoleColor>(_curentColor));
@@ -61,6 +60,8 @@ internal static class ConsoleAnimation
         GetNextColor();
     }
 
+    internal static T FromInt<T>(int intValue) where T : Enum => (T)Enum.ToObject(typeof(T), intValue);
+
     private static void GetNextColor()
     {
         var ColorCount = Enum.GetNames<ConsoleColor>().Length;
@@ -69,20 +70,6 @@ internal static class ConsoleAnimation
             _curentColor = 1;
     }
 
-    public static T FromInt<T>(int intValue) where T : Enum => (T)Enum.ToObject(typeof(T), intValue);
 
-    private class CursorPositon(int X, int Y)
-    {
-        public int X { get; set; } = X;
-        public int Y { get; set; } = Y;
-    }
-
-    public enum AnimationType
-    {
-        LeftToRight = 0,
-        RightToLeft = 1,
-        TopToBottom = 2,
-        BottomToTop = 3
-    }
 
 }

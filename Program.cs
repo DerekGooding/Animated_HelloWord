@@ -4,14 +4,15 @@ internal static class Program
 {
     internal static void Main()
     {
+        var helloWorldAnimation = new ConsoleAnimation("Hello World!");
         Console.CursorVisible = false;
-        ConsoleColored.WriteLine(ConsoleAnimation.AnimationText, ConsoleColor.Cyan);
+        ConsoleColored.WriteLine(helloWorldAnimation.AnimationText, ConsoleColor.Cyan);
 
         while (true)
         {
             var Animation =
-                ConsoleAnimation.FromInt<ConsoleAnimation.AnimationType>(Random.Shared.Next(0, 4));
-            ConsoleAnimation.Write(Animation);
+                ConsoleAnimation.FromInt<AnimationType>(Random.Shared.Next(0, 4));
+            helloWorldAnimation.Write(Animation);
         }
     }
 }
