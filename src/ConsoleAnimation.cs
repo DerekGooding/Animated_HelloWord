@@ -3,15 +3,21 @@ using static System.Console;
 
 namespace Animated_HelloWord;
 
-internal class ConsoleAnimation(string text)
+internal class ConsoleAnimation
 {
-    public string AnimationText = FiggleFonts.Larry3d.Render(text);
+    public readonly string AnimationText;
+
     private CursorPositon _cursorPosition = new(0, 0);
-    private ConsoleColor _currentColor = ConsoleColor.DarkBlue;
 
     public static readonly int ColorCount = Enum.GetNames<ConsoleColor>().Length;
 
-    internal void Write(AnimationType Animation = AnimationType.RightToLeft)
+    public ConsoleAnimation(string text)
+    {
+        AnimationText = FiggleFonts.Larry3d.Render(text);
+        ForegroundColor = ConsoleColor.DarkBlue;
+    }
+
+    internal void AnimateByDirection(AnimationType Animation = AnimationType.RightToLeft)
     {
         if (Animation is AnimationType.LeftToRight or AnimationType.RightToLeft)
         {
@@ -28,7 +34,7 @@ internal class ConsoleAnimation(string text)
                     _cursorPosition = new(col, row);
                     SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
 
-                    ConsoleColored.Write(lines[row][col].ToString(), _currentColor);
+                    Write(lines[row][col].ToString());
 
                 }
 
@@ -49,7 +55,7 @@ internal class ConsoleAnimation(string text)
                 foreach (var c in line.ToList())
                 {
                     SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
-                    ConsoleColored.Write(c.ToString(), _currentColor);
+                    Write(c.ToString());
 
                     _cursorPosition.X++;
                 }
@@ -59,15 +65,15 @@ internal class ConsoleAnimation(string text)
                 _cursorPosition.Y += (Animation == AnimationType.TopToBottom ? 1 : -1);
             }
         }
-        GetNextColor();
+        ForegroundColor = NextColor();
     }
 
-    private void GetNextColor()
+    private static ConsoleColor NextColor()
     {
-        var index = (int)_currentColor;
+        var index = (int)ForegroundColor;
         index++;
         if (index >= ColorCount)
             index = 1;
-        _currentColor = (ConsoleColor)index;
+        return (ConsoleColor)index;
     }
 }
