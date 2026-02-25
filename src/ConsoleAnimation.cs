@@ -46,8 +46,7 @@ internal class ConsoleAnimation
                 _cursorPosition = new(col, row);
                 SetPosition();
 
-                Write(lines[row][col].ToString());
-
+                Write(lines[row][col]);
             }
 
             Thread.Sleep(1);
@@ -69,7 +68,7 @@ internal class ConsoleAnimation
             foreach (var c in line.ToList())
             {
                 SetPosition();
-                Write(c.ToString());
+                Write(c);
 
                 _cursorPosition.X++;
             }
