@@ -11,7 +11,7 @@ internal static class Program
         while (true)
         {
             var Animation =
-                ConsoleAnimation.FromInt<AnimationType>(Random.Shared.Next(0, 4));
+                helloWorldAnimation.FromInt<AnimationType>(Random.Shared.Next(0, 4));
             helloWorldAnimation.Write(Animation);
         }
     }

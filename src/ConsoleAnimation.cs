@@ -7,7 +7,9 @@ internal class ConsoleAnimation(string text)
 {
     public string AnimationText = FiggleFonts.Larry3d.Render(text);
     private CursorPositon _cursorPosition = new(0, 0);
-    private static int _curentColor = 1;
+    private ConsoleColor _currentColor = ConsoleColor.DarkBlue;
+
+    public static readonly int ColorCount = Enum.GetNames<ConsoleColor>().Length;
 
     internal void Write(AnimationType Animation = AnimationType.RightToLeft)
     {
@@ -26,7 +28,7 @@ internal class ConsoleAnimation(string text)
                     _cursorPosition = new(col, row);
                     SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
 
-                    ConsoleColored.Write(lines[row][col].ToString(), FromInt<ConsoleColor>(_curentColor));
+                    ConsoleColored.Write(lines[row][col].ToString(), _currentColor);
 
                 }
 
@@ -47,7 +49,7 @@ internal class ConsoleAnimation(string text)
                 foreach (var c in line.ToList())
                 {
                     SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
-                    ConsoleColored.Write(c.ToString(), FromInt<ConsoleColor>(_curentColor));
+                    ConsoleColored.Write(c.ToString(), _currentColor);
 
                     _cursorPosition.X++;
                 }
@@ -60,16 +62,12 @@ internal class ConsoleAnimation(string text)
         GetNextColor();
     }
 
-    internal static T FromInt<T>(int intValue) where T : Enum => (T)Enum.ToObject(typeof(T), intValue);
-
-    private static void GetNextColor()
+    private void GetNextColor()
     {
-        var ColorCount = Enum.GetNames<ConsoleColor>().Length;
-        _curentColor++;
-        if (_curentColor >= ColorCount)
-            _curentColor = 1;
+        var index = (int)_currentColor;
+        index++;
+        if (index >= ColorCount)
+            index = 1;
+        _currentColor = (ConsoleColor)index;
     }
-
-
-
 }
