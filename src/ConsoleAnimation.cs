@@ -8,10 +8,12 @@ internal class ConsoleAnimation
     public ConsoleAnimation(string text)
     {
         _animationText = FiggleFonts.Larry3d.Render(text);
+        _horizontalSpeed = (int)Math.Round((double)text.Length / 6);
         ForegroundColor = ConsoleColor.DarkBlue;
     }
 
     private readonly string _animationText;
+    private readonly int _horizontalSpeed;
     private CursorPositon _cursorPosition = new(0, 0);
 
     public static readonly int ColorCount = Enum.GetNames<ConsoleColor>().Length;
@@ -34,6 +36,8 @@ internal class ConsoleAnimation
         var lines = _animationText.Split("\n");
         var maxWidth = lines.Max(l => l.Length);
 
+        var count = 0;
+
         foreach (var col in (type == AnimationType.LeftToRight)
             ? Enumerable.Range(0, maxWidth)
             : Enumerable.Range(0, maxWidth).Reverse())
@@ -48,8 +52,12 @@ internal class ConsoleAnimation
 
                 Write(lines[row][col]);
             }
-
-            Thread.Sleep(1);
+            count++;
+            if (count >= _horizontalSpeed)
+            {
+                count = 0;
+                Thread.Sleep(1);
+            }
         }
     }
     private void HandleVertical(AnimationType type)
