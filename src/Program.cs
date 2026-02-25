@@ -10,9 +10,7 @@ internal static class Program
 
         while (true)
         {
-            var Animation =
-                helloWorldAnimation.FromInt<AnimationType>(Random.Shared.Next(0, 4));
-            helloWorldAnimation.Write(Animation);
+            helloWorldAnimation.Write((AnimationType)Random.Shared.Next(0, 4));
         }
     }
 }
