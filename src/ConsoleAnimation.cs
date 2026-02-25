@@ -44,14 +44,13 @@ internal class ConsoleAnimation
                     continue;
 
                 _cursorPosition = new(col, row);
-                SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
+                SetPosition();
 
                 Write(lines[row][col].ToString());
 
             }
 
             Thread.Sleep(1);
-
         }
     }
     private void HandleVertical(AnimationType type)
@@ -65,11 +64,11 @@ internal class ConsoleAnimation
         foreach (var line in Lines)
         {
             _cursorPosition.X = 0;
-            SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
+            SetPosition();
 
             foreach (var c in line.ToList())
             {
-                SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
+                SetPosition();
                 Write(c.ToString());
 
                 _cursorPosition.X++;
@@ -88,5 +87,11 @@ internal class ConsoleAnimation
         if (index >= ColorCount)
             index = 1;
         return (ConsoleColor)index;
+    }
+
+    private void SetPosition()
+    {
+        if(_cursorPosition.X < BufferWidth)
+            SetCursorPosition(_cursorPosition.X, _cursorPosition.Y);
     }
 }
